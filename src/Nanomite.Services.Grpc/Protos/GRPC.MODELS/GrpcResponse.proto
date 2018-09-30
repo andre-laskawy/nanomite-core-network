@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+import "any.proto";
+import "ResultCode.proto";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.message";
+option java_outer_classname = "MessageDataProto";
+option objc_class_prefix = "HLW";
+ 
+package Nanomite.Services.Network.Grpc;
+
+message GrpcResponse {
+	/// <summary>
+	/// An enumeration indicating whether the command or fetch request was executed successfully.
+	/// (E.g. OK, ERROR)
+	/// </summary>  
+    ResultCode Result = 1;
+
+	/// <summary>
+	/// (Optional) In an error case this property can contain the specific error message.
+	/// </summary>  
+    string Message = 2;
+
+	/// <summary>
+	/// (Optional) A List of any proto, which can contain any kind of other proto messages.
+    /// This list is used to send the response data to a specific command or fetch request.
+	/// </summary>  
+    repeated google.protobuf.Any Data = 3;
+}
