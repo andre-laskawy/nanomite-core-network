@@ -22,10 +22,13 @@
 
   <ItemGroup>
     <Folder Include="Grpc\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nanomite.Services.Network.Common\Nanomite.Services.Network.Common.csproj" />
+    <ProjectReference Include="..\Nanomite.Services.Network.Common\Nanomite.Services.Network.Common.csproj">
+         <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
   
 </Project>
