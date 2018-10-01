@@ -6,6 +6,10 @@
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </Content>
+    <Content Include="$(OutputPath)\*.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </Content>
   </ItemGroup>
 
 </Project>

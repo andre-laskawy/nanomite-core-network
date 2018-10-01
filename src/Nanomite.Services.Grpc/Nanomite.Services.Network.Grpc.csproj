@@ -16,13 +16,16 @@
     <PackageReference Include="Google.Protobuf" Version="3.4.1" />
     <PackageReference Include="Grpc.Core" Version="1.11.1" />
     <PackageReference Include="Nanomite.Common" Version="1.0.0-beta2" />
-    <PackageReference Include="Nanomite.Services.Network.Common" Version="1.0.0-beta2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Grpc\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nanomite.Services.Network.Common\Nanomite.Services.Network.Common.csproj" />
   </ItemGroup>
   
 </Project>

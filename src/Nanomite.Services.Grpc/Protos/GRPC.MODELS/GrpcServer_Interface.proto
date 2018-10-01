@@ -18,7 +18,7 @@ service GrpcServer {
     /// Used to send specific commands (actions) via rpc call to the host. 
  	/// The rpc call is always be responded with at least an OK.
     /// </summary>  
-    rpc Connect(NetworkUser) returns (NetworkUser){}
+    rpc Connect(NetworkUser) returns (GrpcResponse){}
  
     /// <summary>
     /// Used to open a bidirectional stream. A stream can either be used to open a permanent contection to the grpc host

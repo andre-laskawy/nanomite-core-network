@@ -34,6 +34,11 @@ namespace Nanomite.Services.Network.Common
         Action<string> OnClientDisconnected { get; set; }
 
         /// <summary>
+        /// Gets or sets the function that is called as soon a client connects.
+        /// </summary>
+        Func<IMessage, string, Metadata, Task<R>> OnClientConnecting { get; set; }
+
+        /// <summary>
         /// Gets or sets the function that is used to fetch data from the server via fetch request proto.
         /// </summary>
         Func<F, string, string, Metadata, Task<R>> OnFetch { get; set; }

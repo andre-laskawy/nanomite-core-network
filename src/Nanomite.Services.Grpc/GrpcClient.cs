@@ -15,6 +15,7 @@ namespace Nanomite.Services.Network.Grpc
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using static Nanomite.Services.Network.Grpc.GrpcServer;
@@ -163,12 +164,17 @@ namespace Nanomite.Services.Network.Grpc
                     PasswordHash = pass.Hash(secretToken)
                 };
 
-                // execute grpc command
-                this.user = await this.ConnectAsync(user, GetHeader(streamId, null, this.header));
+                var response = await this.ConnectAsync(user, GetHeader(streamId, null, this.header));
+                if(response.Result == ResultCode.Error)
+                {
+                    response.ToException(true);
+                }
 
-                // establish new streams
+                this.user = response.Data.FirstOrDefault().CastToModel<NetworkUser>();
+
+                // establish new stream
                 this.grpcStream = base.OpenStream(GetHeader(streamId, user.AuthenticationToken, this.header));
-                await this.grpcStream.RequestStream.WriteAsync(new Command() { Key = "OpenStream" });
+                await this.grpcStream.RequestStream.WriteAsync(new Command() { Key = StaticCommandKeys.OpenStream });
                 this.Stream = new GrpcStream(grpcStream.RequestStream,
                     grpcStream.ResponseStream,
                     streamId,
