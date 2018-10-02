@@ -7,6 +7,7 @@
 namespace Nanomite.Services.Network.Grpc.Models
 {
     using Nanomite.Services.Network.Common;
+    using Nanomite.Services.Network.Common.Models;
     using System;
     using System.Threading.Tasks;
     using System.Timers;
@@ -98,7 +99,7 @@ namespace Nanomite.Services.Network.Grpc.Models
 
                 if (this.OnHeartbeat != null)
                 {
-                    Command message = new Command() { Key = "Heartbeat" };
+                    Command message = new Command() { Topic = StaticCommandKeys.HeartBeat };
                     this.OnHeartbeat?.Invoke(message, 3);
                 }
             }

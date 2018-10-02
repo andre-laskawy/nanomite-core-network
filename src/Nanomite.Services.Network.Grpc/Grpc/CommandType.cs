@@ -23,9 +23,9 @@ namespace Nanomite.Services.Network.Grpc {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFDb21tYW5kVHlwZS5wcm90bxIeTmFub21pdGUuU2VydmljZXMuTmV0d29y",
-            "ay5HcnBjKjAKC0NvbW1hbmRUeXBlEgoKBkFjdGlvbhAAEgsKB01lc3NhZ2UQ",
-            "ARIICgRGaWxlEAJCKwoPaW8uZ3JwYy5tZXNzYWdlQhBNZXNzYWdlRGF0YVBy",
-            "b3RvUAGiAgNITFdiBnByb3RvMw=="));
+            "ay5HcnBjKiMKC0NvbW1hbmRUeXBlEgoKBkFjdGlvbhAAEggKBEZpbGUQAUIr",
+            "Cg9pby5ncnBjLm1lc3NhZ2VCEE1lc3NhZ2VEYXRhUHJvdG9QAaICA0hMV2IG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Nanomite.Services.Network.Grpc.CommandType), }, null));
@@ -36,8 +36,7 @@ namespace Nanomite.Services.Network.Grpc {
   #region Enums
   public enum CommandType {
     [pbr::OriginalName("Action")] Action = 0,
-    [pbr::OriginalName("Message")] Message = 1,
-    [pbr::OriginalName("File")] File = 2,
+    [pbr::OriginalName("File")] File = 1,
   }
 
   #endregion

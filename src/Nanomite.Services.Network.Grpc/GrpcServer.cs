@@ -84,9 +84,6 @@ namespace Nanomite.Common.Common.Services.GrpcService
         public Action<string> OnClientDisconnected { get; set; }
 
         /// <inheritdoc />
-        public Func<IMessage, string, Metadata, Task<GrpcResponse>> OnClientConnecting { get; set; }
-
-        /// <inheritdoc />
         public Func<FetchRequest, string, string, Metadata, Task<GrpcResponse>> OnFetch { get; set; }
 
         /// <inheritdoc />
@@ -97,29 +94,6 @@ namespace Nanomite.Common.Common.Services.GrpcService
 
         /// <inheritdoc />
         public Action<object, string, LogLevel> OnNotify { get; set; }
-
-        /// <inheritdoc />
-        public override async Task<GrpcResponse> Connect(NetworkUser request, ServerCallContext context)
-        {
-            try
-            {
-                this.Log(this.ToString(), "client conecting...", LogLevel.Trace);
-                if (!context.RequestHeaders.Any(p => p.Key == NetworkHeader.StreamIdHeader))
-                {
-                    throw new Exception("Missing header information");
-                }
-
-                string streamId = context.RequestHeaders.FirstOrDefault(p => p.Key == NetworkHeader.StreamIdHeader).Value;
-
-                var response = await this.OnClientConnecting?.Invoke(request, streamId, context.RequestHeaders);
-                this.Log(this.ToString(), "Send connect response", LogLevel.Trace);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new GrpcResponse() { Result = ResultCode.Error, Message = ex.ToText("Connection error") };
-            }
-        }
 
         /// <inheritdoc />
         public override async Task<GrpcResponse> Fetch(FetchRequest request, ServerCallContext context)
@@ -195,7 +169,7 @@ namespace Nanomite.Common.Common.Services.GrpcService
             try
             {
                 // Hearbeat from client
-                if (command.Key == "Heartbeat")
+                if (command.Topic == StaticCommandKeys.HeartBeat)
                 {
                     return new GrpcResponse() { Result = ResultCode.Ok };
                 }

@@ -9,6 +9,7 @@ namespace Nanomite.Server.Base.Communication
     using Google.Protobuf;
     using Google.Protobuf.WellKnownTypes;
     using Grpc.Core;
+    using Nanomite.Services.Network;
     using Nanomite.Services.Network.Common;
     using Nanomite.Services.Network.Grpc;
     using NLog;
@@ -98,11 +99,6 @@ namespace Nanomite.Server.Base.Communication
         public Action<Command, IClient<Command, FetchRequest, GrpcResponse>> OnCommandReceived { get; set; }
 
         /// <summary>
-        /// Gets or sets the action that is called when a message is received on the stream channel.
-        /// </summary>
-        public Action<Command, IClient<Command, FetchRequest, GrpcResponse>> OnMessageReceived { get; set; }
-
-        /// <summary>
         /// Gets or sets the action that is called when the client is connected
         /// </summary>
         public Action OnConnected { get; set; }
@@ -170,9 +166,9 @@ namespace Nanomite.Server.Base.Communication
         /// <typeparam name="G">any kind of a proto type</typeparam>
         /// <param name="data">The data.</param>
         /// <param name="key">The command key.</param>
-        /// <param name="topic">The topic.</param>
+        /// <param name="target">The target.</param>
         /// <returns>The <see cref="Task{GrpcResponse}"/></returns>
-        public async Task<GrpcResponse> SendCommandAsync<G>(G data, string key, string topic = null) where G : IMessage
+        public async Task<GrpcResponse> SendCommandAsync<G>(G data, string key, string target = null) where G : IMessage
         {
             if (this.IsOnline)
             {
@@ -180,8 +176,9 @@ namespace Nanomite.Server.Base.Communication
                 Command cmd = new Command()
                 {
                     Type = CommandType.Action,
-                    Key = key,
-                    Topic = topic ?? key.ToString(),
+                    Topic = key.ToString(),
+                    SenderId = this.SrcDeviceId,
+                    TargetId = target ?? ""
                 };
 
                 cmd.Data.Add(Any.Pack(data));
@@ -200,9 +197,9 @@ namespace Nanomite.Server.Base.Communication
         /// <typeparam name="G">any kind of a proto type</typeparam>
         /// <param name="data">The data.</param>
         /// <param name="key">The command key.</param>
-        /// <param name="topic">The topic.</param>
+        /// <param name="target">The target.</param>
         /// <returns>The <see cref="Task{GrpcResponse}"/></returns>
-        public async Task<GrpcResponse> SendCommandAsync<G>(List<G> data, string key, string topic = null) where G : IMessage
+        public async Task<GrpcResponse> SendCommandAsync<G>(List<G> data, string key, string target = null) where G : IMessage
         {
             if (this.IsOnline)
             {
@@ -210,8 +207,9 @@ namespace Nanomite.Server.Base.Communication
                 Command cmd = new Command()
                 {
                     Type = CommandType.Action,
-                    Key = key,
-                    Topic = topic ?? key.ToString(),
+                    Topic = key.ToString(),
+                    SenderId = this.SrcDeviceId,
+                    TargetId = target ?? ""
                 };
 
                 foreach (var item in data)
@@ -236,6 +234,7 @@ namespace Nanomite.Server.Base.Communication
         {
             if (this.IsOnline)
             {
+                cmd.SenderId = this.SrcDeviceId;
                 this.Log(this, this.SrcDeviceId, "Sending command...", NLog.LogLevel.Debug);
                 return await this.Client.Execute(cmd, this.token, ReceiptTimeout);
             }
@@ -257,6 +256,7 @@ namespace Nanomite.Server.Base.Communication
         {
             if (this.IsOnline)
             {
+                cmd.SenderId = this.SrcDeviceId;
                 this.Log(this, this.SrcDeviceId, "Sending command via stream...", NLog.LogLevel.Debug);
                 await this.Client.WriteOnStream(cmd, StreamTimeout);
                 return new GrpcResponse() { Result = ResultCode.Ok };
@@ -277,20 +277,19 @@ namespace Nanomite.Server.Base.Communication
         }
 
         /// <summary>
-        /// Is called when a package is received
+        /// Is called when a command is received
         /// </summary>
-        /// <param name="package">The package.</param>
-        private async void DataReceived(Command package)
+        /// <param name="command">The command.</param>
+        private async void DataReceived(Command command)
         {
             try
             {
-                if (package.Type == CommandType.Action)
+                if (!await AsyncCommandProcessor.Notify(command))
                 {
-                    this.OnCommandReceived?.Invoke(package, this.Client);
-                }
-                else if (package.Type == CommandType.Message)
-                {
-                    this.OnMessageReceived?.Invoke(package, this.Client);
+                    if (command.Type == CommandType.Action)
+                    {
+                        this.OnCommandReceived?.Invoke(command, this.Client);
+                    }
                 }
             }
             catch (Exception ex)

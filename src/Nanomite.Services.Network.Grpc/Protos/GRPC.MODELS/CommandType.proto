@@ -9,6 +9,5 @@ package Nanomite.Services.Network.Grpc;
 
 enum CommandType {
     Action = 0;
-    Message = 1;
-	File = 2;
+	File = 1;
 }

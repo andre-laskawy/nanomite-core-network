@@ -7,6 +7,7 @@
 namespace Nanomite.Services.Network.Grpc
 {
     using global::Grpc.Core;
+    using Google.Protobuf.WellKnownTypes;
     using Nanomite;
     using Nanomite.Services.Network.Common;
     using Nanomite.Services.Network.Common.Models;
@@ -164,7 +165,10 @@ namespace Nanomite.Services.Network.Grpc
                     PasswordHash = pass.Hash(secretToken)
                 };
 
-                var response = await this.ConnectAsync(user, GetHeader(streamId, null, this.header));
+                Command loginCmd = new Command() { Topic = StaticCommandKeys.Connect, Type = CommandType.Action };
+                loginCmd.Data.Add(Any.Pack(loginCmd));
+
+                var response = await this.ExecuteAsync(loginCmd, GetHeader(streamId, null, this.header));
                 if(response.Result == ResultCode.Error)
                 {
                     response.ToException(true);
@@ -174,7 +178,7 @@ namespace Nanomite.Services.Network.Grpc
 
                 // establish new stream
                 this.grpcStream = base.OpenStream(GetHeader(streamId, user.AuthenticationToken, this.header));
-                await this.grpcStream.RequestStream.WriteAsync(new Command() { Key = StaticCommandKeys.OpenStream });
+                await this.grpcStream.RequestStream.WriteAsync(new Command() { Topic = StaticCommandKeys.OpenStream });
                 this.Stream = new GrpcStream(grpcStream.RequestStream,
                     grpcStream.ResponseStream,
                     streamId,

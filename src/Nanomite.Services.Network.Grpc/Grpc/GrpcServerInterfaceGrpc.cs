@@ -12,17 +12,9 @@ namespace Nanomite.Services.Network.Grpc {
   {
     static readonly string __ServiceName = "Nanomite.Services.Network.Grpc.GrpcServer";
 
-    static readonly grpc::Marshaller<global::Nanomite.Services.Network.Grpc.NetworkUser> __Marshaller_NetworkUser = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Services.Network.Grpc.NetworkUser.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Nanomite.Services.Network.Grpc.GrpcResponse> __Marshaller_GrpcResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Services.Network.Grpc.GrpcResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Nanomite.Services.Network.Grpc.Command> __Marshaller_Command = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Services.Network.Grpc.Command.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Nanomite.Services.Network.Grpc.GrpcResponse> __Marshaller_GrpcResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Services.Network.Grpc.GrpcResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Nanomite.Services.Network.Grpc.FetchRequest> __Marshaller_FetchRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Services.Network.Grpc.FetchRequest.Parser.ParseFrom);
-
-    static readonly grpc::Method<global::Nanomite.Services.Network.Grpc.NetworkUser, global::Nanomite.Services.Network.Grpc.GrpcResponse> __Method_Connect = new grpc::Method<global::Nanomite.Services.Network.Grpc.NetworkUser, global::Nanomite.Services.Network.Grpc.GrpcResponse>(
-        grpc::MethodType.Unary,
-        __ServiceName,
-        "Connect",
-        __Marshaller_NetworkUser,
-        __Marshaller_GrpcResponse);
 
     static readonly grpc::Method<global::Nanomite.Services.Network.Grpc.Command, global::Nanomite.Services.Network.Grpc.Command> __Method_OpenStream = new grpc::Method<global::Nanomite.Services.Network.Grpc.Command, global::Nanomite.Services.Network.Grpc.Command>(
         grpc::MethodType.DuplexStreaming,
@@ -54,20 +46,6 @@ namespace Nanomite.Services.Network.Grpc {
     /// <summary>Base class for server-side implementations of GrpcServer</summary>
     public abstract partial class GrpcServerBase
     {
-      /// <summary>
-      //// &lt;summary>
-      //// Used to send specific commands (actions) via rpc call to the host. 
-      //// The rpc call is always be responded with at least an OK.
-      //// &lt;/summary>  
-      /// </summary>
-      /// <param name="request">The request received from the client.</param>
-      /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::Nanomite.Services.Network.Grpc.GrpcResponse> Connect(global::Nanomite.Services.Network.Grpc.NetworkUser request, grpc::ServerCallContext context)
-      {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
-      }
-
       /// <summary>
       //// &lt;summary>
       //// Used to open a bidirectional stream. A stream can either be used to open a permanent contection to the grpc host
@@ -136,62 +114,6 @@ namespace Nanomite.Services.Network.Grpc {
       {
       }
 
-      /// <summary>
-      //// &lt;summary>
-      //// Used to send specific commands (actions) via rpc call to the host. 
-      //// The rpc call is always be responded with at least an OK.
-      //// &lt;/summary>  
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Services.Network.Grpc.GrpcResponse Connect(global::Nanomite.Services.Network.Grpc.NetworkUser request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
-      {
-        return Connect(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      /// <summary>
-      //// &lt;summary>
-      //// Used to send specific commands (actions) via rpc call to the host. 
-      //// The rpc call is always be responded with at least an OK.
-      //// &lt;/summary>  
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Services.Network.Grpc.GrpcResponse Connect(global::Nanomite.Services.Network.Grpc.NetworkUser request, grpc::CallOptions options)
-      {
-        return CallInvoker.BlockingUnaryCall(__Method_Connect, null, options, request);
-      }
-      /// <summary>
-      //// &lt;summary>
-      //// Used to send specific commands (actions) via rpc call to the host. 
-      //// The rpc call is always be responded with at least an OK.
-      //// &lt;/summary>  
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Services.Network.Grpc.GrpcResponse> ConnectAsync(global::Nanomite.Services.Network.Grpc.NetworkUser request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
-      {
-        return ConnectAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      /// <summary>
-      //// &lt;summary>
-      //// Used to send specific commands (actions) via rpc call to the host. 
-      //// The rpc call is always be responded with at least an OK.
-      //// &lt;/summary>  
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Services.Network.Grpc.GrpcResponse> ConnectAsync(global::Nanomite.Services.Network.Grpc.NetworkUser request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncUnaryCall(__Method_Connect, null, options, request);
-      }
       /// <summary>
       //// &lt;summary>
       //// Used to open a bidirectional stream. A stream can either be used to open a permanent contection to the grpc host
@@ -342,7 +264,6 @@ namespace Nanomite.Services.Network.Grpc {
     public static grpc::ServerServiceDefinition BindService(GrpcServerBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_Connect, serviceImpl.Connect)
           .AddMethod(__Method_OpenStream, serviceImpl.OpenStream)
           .AddMethod(__Method_Execute, serviceImpl.Execute)
           .AddMethod(__Method_Fetch, serviceImpl.Fetch).Build();

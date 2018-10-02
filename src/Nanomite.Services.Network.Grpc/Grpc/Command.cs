@@ -23,16 +23,16 @@ namespace Nanomite.Services.Network.Grpc {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1Db21tYW5kLnByb3RvEh5OYW5vbWl0ZS5TZXJ2aWNlcy5OZXR3b3JrLkdy",
-            "cGMaCWFueS5wcm90bxoRQ29tbWFuZFR5cGUucHJvdG8ilwEKB0NvbW1hbmQS",
-            "EQoJQ29tbWFuZElkGAEgASgJEjkKBFR5cGUYAiABKA4yKy5OYW5vbWl0ZS5T",
-            "ZXJ2aWNlcy5OZXR3b3JrLkdycGMuQ29tbWFuZFR5cGUSCwoDS2V5GAMgASgJ",
-            "Eg0KBVRvcGljGAQgASgJEiIKBERhdGEYBSADKAsyFC5nb29nbGUucHJvdG9i",
-            "dWYuQW55QisKD2lvLmdycGMubWVzc2FnZUIQTWVzc2FnZURhdGFQcm90b1AB",
-            "ogIDSExXYgZwcm90bzM="));
+            "cGMaCWFueS5wcm90bxoRQ29tbWFuZFR5cGUucHJvdG8imwEKB0NvbW1hbmQS",
+            "OQoEVHlwZRgBIAEoDjIrLk5hbm9taXRlLlNlcnZpY2VzLk5ldHdvcmsuR3Jw",
+            "Yy5Db21tYW5kVHlwZRINCgVUb3BpYxgCIAEoCRIQCghTZW5kZXJJZBgDIAEo",
+            "CRIQCghUYXJnZXRJZBgEIAEoCRIiCgREYXRhGAYgAygLMhQuZ29vZ2xlLnBy",
+            "b3RvYnVmLkFueUIrCg9pby5ncnBjLm1lc3NhZ2VCEE1lc3NhZ2VEYXRhUHJv",
+            "dG9QAaICA0hMV2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Nanomite.Services.Network.Grpc.CommandTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Services.Network.Grpc.Command), global::Nanomite.Services.Network.Grpc.Command.Parser, new[]{ "CommandId", "Type", "Key", "Topic", "Data" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Services.Network.Grpc.Command), global::Nanomite.Services.Network.Grpc.Command.Parser, new[]{ "Type", "Topic", "SenderId", "TargetId", "Data" }, null, null, null)
           }));
     }
     #endregion
@@ -63,10 +63,10 @@ namespace Nanomite.Services.Network.Grpc {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Command(Command other) : this() {
-      commandId_ = other.commandId_;
       type_ = other.type_;
-      key_ = other.key_;
       topic_ = other.topic_;
+      senderId_ = other.senderId_;
+      targetId_ = other.targetId_;
       data_ = other.data_.Clone();
     }
 
@@ -75,26 +75,8 @@ namespace Nanomite.Services.Network.Grpc {
       return new Command(this);
     }
 
-    /// <summary>Field number for the "CommandId" field.</summary>
-    public const int CommandIdFieldNumber = 1;
-    private string commandId_ = "";
-    /// <summary>
-    //// &lt;summary>
-    //// (Optional) Defines a unique identifier for the command. 
-    //// This one is important to indentify a specific command that responses an inital
-    //// command ﻿﻿with the same identifier on async grpc stream.
-    //// &lt;/summary>    
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string CommandId {
-      get { return commandId_; }
-      set {
-        commandId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "Type" field.</summary>
-    public const int TypeFieldNumber = 2;
+    public const int TypeFieldNumber = 1;
     private global::Nanomite.Services.Network.Grpc.CommandType type_ = 0;
     /// <summary>
     //// &lt;summary>
@@ -109,29 +91,13 @@ namespace Nanomite.Services.Network.Grpc {
       }
     }
 
-    /// <summary>Field number for the "Key" field.</summary>
-    public const int KeyFieldNumber = 3;
-    private string key_ = "";
-    /// <summary>
-    //// &lt;summary>
-    //// Defines a key which is indicating the specific action or business logic that need to be done
-    //// (e.g. Insert, Update, Delete etc.)
-    //// &lt;/summary>
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Key {
-      get { return key_; }
-      set {
-        key_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "Topic" field.</summary>
-    public const int TopicFieldNumber = 4;
+    public const int TopicFieldNumber = 2;
     private string topic_ = "";
     /// <summary>
     //// &lt;summary>
-    //// (Optional) Used to define the topic the clients can subscribe to.
+    //// Defines a key which is indicating the specific topic a client can subscribe to.
+    //// (e.g. Insert, Update, Delete etc.)
     //// &lt;/summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -142,10 +108,42 @@ namespace Nanomite.Services.Network.Grpc {
       }
     }
 
+    /// <summary>Field number for the "SenderId" field.</summary>
+    public const int SenderIdFieldNumber = 3;
+    private string senderId_ = "";
+    /// <summary>
+    //// &lt;summary>
+    //// Used to define the sender.
+    //// &lt;/summary>
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string SenderId {
+      get { return senderId_; }
+      set {
+        senderId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "TargetId" field.</summary>
+    public const int TargetIdFieldNumber = 4;
+    private string targetId_ = "";
+    /// <summary>
+    //// &lt;summary>
+    //// (Optional) Used to define a specific target.
+    //// &lt;/summary>
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string TargetId {
+      get { return targetId_; }
+      set {
+        targetId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "Data" field.</summary>
-    public const int DataFieldNumber = 5;
+    public const int DataFieldNumber = 6;
     private static readonly pb::FieldCodec<global::Google.Protobuf.WellKnownTypes.Any> _repeated_data_codec
-        = pb::FieldCodec.ForMessage(42, global::Google.Protobuf.WellKnownTypes.Any.Parser);
+        = pb::FieldCodec.ForMessage(50, global::Google.Protobuf.WellKnownTypes.Any.Parser);
     private readonly pbc::RepeatedField<global::Google.Protobuf.WellKnownTypes.Any> data_ = new pbc::RepeatedField<global::Google.Protobuf.WellKnownTypes.Any>();
     /// <summary>
     //// &lt;summary>
@@ -171,10 +169,10 @@ namespace Nanomite.Services.Network.Grpc {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (CommandId != other.CommandId) return false;
       if (Type != other.Type) return false;
-      if (Key != other.Key) return false;
       if (Topic != other.Topic) return false;
+      if (SenderId != other.SenderId) return false;
+      if (TargetId != other.TargetId) return false;
       if(!data_.Equals(other.data_)) return false;
       return true;
     }
@@ -182,10 +180,10 @@ namespace Nanomite.Services.Network.Grpc {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (CommandId.Length != 0) hash ^= CommandId.GetHashCode();
       if (Type != 0) hash ^= Type.GetHashCode();
-      if (Key.Length != 0) hash ^= Key.GetHashCode();
       if (Topic.Length != 0) hash ^= Topic.GetHashCode();
+      if (SenderId.Length != 0) hash ^= SenderId.GetHashCode();
+      if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
       hash ^= data_.GetHashCode();
       return hash;
     }
@@ -197,21 +195,21 @@ namespace Nanomite.Services.Network.Grpc {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (CommandId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(CommandId);
-      }
       if (Type != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (Key.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Key);
-      }
       if (Topic.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(18);
         output.WriteString(Topic);
+      }
+      if (SenderId.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(SenderId);
+      }
+      if (TargetId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(TargetId);
       }
       data_.WriteTo(output, _repeated_data_codec);
     }
@@ -219,17 +217,17 @@ namespace Nanomite.Services.Network.Grpc {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (CommandId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CommandId);
-      }
       if (Type != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (Key.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Key);
-      }
       if (Topic.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Topic);
+      }
+      if (SenderId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SenderId);
+      }
+      if (TargetId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
       }
       size += data_.CalculateSize(_repeated_data_codec);
       return size;
@@ -240,17 +238,17 @@ namespace Nanomite.Services.Network.Grpc {
       if (other == null) {
         return;
       }
-      if (other.CommandId.Length != 0) {
-        CommandId = other.CommandId;
-      }
       if (other.Type != 0) {
         Type = other.Type;
       }
-      if (other.Key.Length != 0) {
-        Key = other.Key;
-      }
       if (other.Topic.Length != 0) {
         Topic = other.Topic;
+      }
+      if (other.SenderId.Length != 0) {
+        SenderId = other.SenderId;
+      }
+      if (other.TargetId.Length != 0) {
+        TargetId = other.TargetId;
       }
       data_.Add(other.data_);
     }
@@ -263,23 +261,23 @@ namespace Nanomite.Services.Network.Grpc {
           default:
             input.SkipLastField();
             break;
-          case 10: {
-            CommandId = input.ReadString();
-            break;
-          }
-          case 16: {
+          case 8: {
             type_ = (global::Nanomite.Services.Network.Grpc.CommandType) input.ReadEnum();
             break;
           }
-          case 26: {
-            Key = input.ReadString();
-            break;
-          }
-          case 34: {
+          case 18: {
             Topic = input.ReadString();
             break;
           }
-          case 42: {
+          case 26: {
+            SenderId = input.ReadString();
+            break;
+          }
+          case 34: {
+            TargetId = input.ReadString();
+            break;
+          }
+          case 50: {
             data_.AddEntriesFrom(input, _repeated_data_codec);
             break;
           }

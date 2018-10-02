@@ -7,6 +7,7 @@
 namespace Nanomite.Server.Base.Communication
 {
     using Grpc.Core;
+    using Nanomite.Services.Network;
     using Nanomite.Services.Network.Common;
     using Nanomite.Services.Network.Common.Models;
     using Nanomite.Services.Network.Grpc;
@@ -42,7 +43,7 @@ namespace Nanomite.Server.Base.Communication
             this.communicationService.OnFetch = async (request, streamId, token, header) => { return await this.Fetch(request, streamId, token, header); };
             this.communicationService.OnStreaming = async (cmd, stream, token, header) =>
             {
-                if (cmd.Key == StaticCommandKeys.OpenStream)
+                if (cmd.Topic == StaticCommandKeys.OpenStream)
                 {
                     return await this.OnStreamOpened(stream, token, header);
                 }
@@ -51,10 +52,6 @@ namespace Nanomite.Server.Base.Communication
                     return await this.OnStreaming?.Invoke(cmd, stream, token, header);
                 }
             };
-            this.communicationService.OnClientConnecting = async (user, streamId, header) =>
-            {
-                return await this.OnClientConnecting?.Invoke(user as NetworkUser, streamId, header);
-            };
             this.communicationService.OnClientDisconnected = (id) => { this.OnClientDisconnected?.Invoke(id); };
         }
 
@@ -62,11 +59,6 @@ namespace Nanomite.Server.Base.Communication
         /// Gets or sets the action that is called when a client is disconnected
         /// </summary>
         public Action<string> OnClientDisconnected { get; set; }
-
-        /// <summary>
-        /// Gets or sets the action that is called when a client is connecting
-        /// </summary>
-        public Func<NetworkUser, string, Metadata, Task<GrpcResponse>> OnClientConnecting { get; set; }
 
         /// <summary>
         /// Gets or sets the function that is called when a client wants to open a permanent grpc stream
@@ -83,12 +75,6 @@ namespace Nanomite.Server.Base.Communication
         /// Gets or sets the function that is used to process a fetch request
         /// </summary>
         public Func<FetchRequest, string, string, Metadata, Task<GrpcResponse>> OnFetch { get; set; }
-
-        /// <summary>
-        /// Gets or sets the OnMessage
-        /// Gets or sets function that is called when a message is received via rpc call
-        /// </summary>
-        public Func<Command, string, string, Metadata, Task<GrpcResponse>> OnMessage { get; set; }
 
         /// <summary>
         /// Gets or sets the OnAction
@@ -164,18 +150,20 @@ namespace Nanomite.Server.Base.Communication
                     throw new Exception("no token provided.");
                 }
 
-                if (command.Type == CommandType.Action)
+                if (!await AsyncCommandProcessor.Notify(command))
                 {
-                    this.Log(this, this.SrcDeviceId, "Command received", LogLevel.Trace);
-                    return await this.OnAction?.Invoke(command, streamId, token, header);
-                }
-                else if (command.Type == CommandType.Message)
-                {
-                    this.Log(this, this.SrcDeviceId, "Message received", LogLevel.Trace);
-                    return await this.OnMessage?.Invoke(command, streamId, token, header);
-                }
+                    if (command.Type == CommandType.Action)
+                    {
+                        this.Log(this, this.SrcDeviceId, "Command received", LogLevel.Trace);
+                        return await this.OnAction?.Invoke(command, streamId, token, header);
+                    }
 
-                return new GrpcResponse() { Result = ResultCode.Error, Message = "Unknown type" };
+                    return new GrpcResponse() { Result = ResultCode.Error, Message = "Unknown type" };
+                }
+                else
+                {
+                    return new GrpcResponse() { Result = ResultCode.Ok };
+                }
             }
             catch (Exception ex)
             {

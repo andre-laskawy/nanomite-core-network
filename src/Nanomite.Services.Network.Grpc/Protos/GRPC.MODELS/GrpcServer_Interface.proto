@@ -15,12 +15,6 @@ package Nanomite.Services.Network.Grpc;
 service GrpcServer {
 
     /// <summary>
-    /// Used to send specific commands (actions) via rpc call to the host. 
- 	/// The rpc call is always be responded with at least an OK.
-    /// </summary>  
-    rpc Connect(NetworkUser) returns (GrpcResponse){}
- 
-    /// <summary>
     /// Used to open a bidirectional stream. A stream can either be used to open a permanent contection to the grpc host
 	/// to receive event the client subscribes to or to open one or multiple streams to send big data content.
     /// </summary>    
