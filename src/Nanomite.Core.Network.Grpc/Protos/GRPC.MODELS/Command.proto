@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+import "any.proto";
+import "CommandType.proto";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.message";
+option java_outer_classname = "MessageDataProto";
+option objc_class_prefix = "HLW";
+ 
+package Nanomite.Core.Network.Grpc;
+
+message Command {
+
+	/// <summary>
+	/// Defines the type of the command (e.g. Action, Message, File)
+	/// </summary>  
+    CommandType Type = 1;
+
+	/// <summary>
+	/// Defines a key which is indicating the specific topic a client can subscribe to.
+	/// (e.g. Insert, Update, Delete etc.)
+	/// </summary>
+    string Topic = 2;
+
+	/// <summary>
+	/// Used to define the sender.
+	/// </summary>
+    string SenderId = 3;
+
+	/// <summary>
+	/// (Optional) Used to define a specific target.
+	/// </summary>
+    string TargetId = 4;
+
+	/// <summary>
+	/// (Optional) A List of any proto, which can contain any kind of other proto messages.
+    /// This list is used to send dynamic information to this specific command 
+	/// </summary>  
+    repeated google.protobuf.Any Data = 6;
+}
