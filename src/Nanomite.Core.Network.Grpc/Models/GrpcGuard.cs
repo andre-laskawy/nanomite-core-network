@@ -92,7 +92,7 @@ namespace Nanomite.Core.Network.Grpc.Models
 
             try
             {
-                if (stream != null)
+                if (stream == null)
                 {
                     return false;
                 }
