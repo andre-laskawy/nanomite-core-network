@@ -188,7 +188,7 @@ namespace Nanomite.Core.Network.Grpc
                 await this.OpenStream(streamId, user.AuthenticationToken, this.header, tryReconnect);
 
                 // return token
-                return user.AuthenticationToken;
+                return this.user.AuthenticationToken;
             }
             catch (Exception ex)
             {
