@@ -173,7 +173,7 @@ namespace Nanomite.Core.Network.Grpc
                     Type = CommandType.Action,
                     SenderId = streamId
                 };
-                loginCmd.Data.Add(Any.Pack(loginCmd));
+                loginCmd.Data.Add(Any.Pack(user));
 
                 // connect
                 var response = await this.ExecuteAsync(loginCmd, GetHeader(streamId, null, this.header));
