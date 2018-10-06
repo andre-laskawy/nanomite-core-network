@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Nanomite.Core.Network.Grpc {
+namespace Nanomite.Core.Network.Common {
 
   /// <summary>Holder for reflection information generated from CommandType.proto</summary>
   public static partial class CommandTypeReflection {
@@ -22,13 +22,13 @@ namespace Nanomite.Core.Network.Grpc {
     static CommandTypeReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFDb21tYW5kVHlwZS5wcm90bxIeTmFub21pdGUuU2VydmljZXMuTmV0d29y",
-            "ay5HcnBjKiMKC0NvbW1hbmRUeXBlEgoKBkFjdGlvbhAAEggKBEZpbGUQAUIr",
-            "Cg9pby5ncnBjLm1lc3NhZ2VCEE1lc3NhZ2VEYXRhUHJvdG9QAaICA0hMV2IG",
-            "cHJvdG8z"));
+            "ChFDb21tYW5kVHlwZS5wcm90bxIcTmFub21pdGUuQ29yZS5OZXR3b3JrLkNv",
+            "bW1vbiojCgtDb21tYW5kVHlwZRIKCgZBY3Rpb24QABIICgRGaWxlEAFCKwoP",
+            "aW8uZ3JwYy5tZXNzYWdlQhBNZXNzYWdlRGF0YVByb3RvUAGiAgNITFdiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Nanomite.Core.Network.Grpc.CommandType), }, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Nanomite.Core.Network.Common.CommandType), }, null));
     }
     #endregion
 

@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Nanomite.Core.Network.Grpc {
+namespace Nanomite.Core.Network.Common {
 
   /// <summary>Holder for reflection information generated from FetchRequest.proto</summary>
   public static partial class FetchRequestReflection {
@@ -22,15 +22,15 @@ namespace Nanomite.Core.Network.Grpc {
     static FetchRequestReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChJGZXRjaFJlcXVlc3QucHJvdG8SHk5hbm9taXRlLlNlcnZpY2VzLk5ldHdv",
-            "cmsuR3JwYyJWCgxGZXRjaFJlcXVlc3QSFwoPVHlwZURlc2NyaXB0aW9uGAEg",
-            "ASgJEg0KBVF1ZXJ5GAIgASgJEh4KFklubGN1ZGVSZWxhdGVkRW50aXRpZXMY",
-            "AyABKAhCKwoPaW8uZ3JwYy5tZXNzYWdlQhBNZXNzYWdlRGF0YVByb3RvUAGi",
-            "AgNITFdiBnByb3RvMw=="));
+            "ChJGZXRjaFJlcXVlc3QucHJvdG8SHE5hbm9taXRlLkNvcmUuTmV0d29yay5D",
+            "b21tb24iVgoMRmV0Y2hSZXF1ZXN0EhcKD1R5cGVEZXNjcmlwdGlvbhgBIAEo",
+            "CRINCgVRdWVyeRgCIAEoCRIeChZJbmxjdWRlUmVsYXRlZEVudGl0aWVzGAMg",
+            "ASgIQisKD2lvLmdycGMubWVzc2FnZUIQTWVzc2FnZURhdGFQcm90b1ABogID",
+            "SExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Grpc.FetchRequest), global::Nanomite.Core.Network.Grpc.FetchRequest.Parser, new[]{ "TypeDescription", "Query", "InlcudeRelatedEntities" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Common.FetchRequest), global::Nanomite.Core.Network.Common.FetchRequest.Parser, new[]{ "TypeDescription", "Query", "InlcudeRelatedEntities" }, null, null, null)
           }));
     }
     #endregion
@@ -44,7 +44,7 @@ namespace Nanomite.Core.Network.Grpc {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Nanomite.Core.Network.Grpc.FetchRequestReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Nanomite.Core.Network.Common.FetchRequestReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

@@ -5,10 +5,8 @@ option java_package = "io.grpc.message";
 option java_outer_classname = "MessageDataProto";
 option objc_class_prefix = "HLW";
  
-package Nanomite.Core.Network.Grpc;
+package Nanomite.Core.Network.Common;
 
-message NetworkUser {
-	string LoginName = 13;
-	string PasswordHash = 16;
-	string AuthenticationToken = 17;
+message S_SubscriptionMessage {
+	string Topic = 1;
 }

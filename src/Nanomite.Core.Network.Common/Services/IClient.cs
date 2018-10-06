@@ -6,8 +6,8 @@
 
 namespace Nanomite.Core.Network.Common
 {
+    using global::Grpc.Core;
     using Google.Protobuf;
-    using Grpc.Core;
     using System;
     using System.Threading.Tasks;
 
@@ -69,6 +69,16 @@ namespace Nanomite.Core.Network.Common
         Task<string> Connect(string streamId, string userId, string pass, string secretToken, Metadata optionalHeader, bool tryReconnect = false);
 
         /// <summary>
+        /// Opens a permanent stream.
+        /// </summary>
+        /// <param name="streamId">The stream identifier.</param>
+        /// <param name="token">The token.</param>
+        /// <param name="header">The header.</param>
+        /// <param name="tryReconnect">if set to <c>true</c> [try reconnect].</param>
+        /// <returns>a task</returns>
+        Task OpenStream(string streamId, string token, Metadata header, bool tryReconnect);
+
+        /// <summary>
         /// This function is used to request data from the cloud. To give the neccesary information about the data we want to receive
         /// the FetchRequest proto is used. The authentication token has to given also.
         /// </summary>
@@ -85,8 +95,22 @@ namespace Nanomite.Core.Network.Common
         /// <param name="command">The command.</param>
         /// <param name="token">The token.</param>
         /// <param name="timeout">The timeout.</param>
-        /// <returns></returns>
+        /// <returns>a rpc response</returns>
         Task<R> Execute(C command, string token, int timeout = 60);
+
+        /// <summary>
+        /// This function is used to send a command via rpc call. The command proto contains the specific data
+        /// that is requiered for the specific command key. The authentication token has to given also.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="token">The token.</param>
+        /// <param name="streamId">The stream identifier.</param>
+        /// <param name="header">The header.</param>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns>
+        /// a rpc response
+        /// </returns>
+        Task<R> ExecuteRaw(C command, string token, string streamId, Metadata header, int timeout = 60);
 
         /// <summary>
         /// This function is use to send a command via stream

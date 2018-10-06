@@ -25,5 +25,20 @@ namespace Nanomite.Core.Network.Common.Models
         /// Defines the Connect
         /// </summary>
         public const string Connect = "Connect";
+
+        /// <summary>
+        /// The subscribe
+        /// </summary>
+        public const string Subscribe = "Subscribe";
+
+        /// <summary>
+        /// The unsubscribe
+        /// </summary>
+        public const string Unsubscribe = "Unsubscribe";
+
+        /// <summary>
+        /// The file transfer
+        /// </summary>
+        public const string FileTransfer = "FileTransfer";
     }
 }

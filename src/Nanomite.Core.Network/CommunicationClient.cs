@@ -10,7 +10,6 @@ namespace Nanomite.Core.Network
     using Google.Protobuf;
     using Google.Protobuf.WellKnownTypes;
     using Nanomite.Core.Network.Common;
-    using Nanomite.Core.Network.Grpc;
     using NLog;
     using System;
     using System.Collections.Generic;

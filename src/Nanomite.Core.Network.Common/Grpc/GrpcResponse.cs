@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Nanomite.Core.Network.Grpc {
+namespace Nanomite.Core.Network.Common {
 
   /// <summary>Holder for reflection information generated from GrpcResponse.proto</summary>
   public static partial class GrpcResponseReflection {
@@ -22,16 +22,16 @@ namespace Nanomite.Core.Network.Grpc {
     static GrpcResponseReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChJHcnBjUmVzcG9uc2UucHJvdG8SHk5hbm9taXRlLlNlcnZpY2VzLk5ldHdv",
-            "cmsuR3JwYxoJYW55LnByb3RvGhBSZXN1bHRDb2RlLnByb3RvIn8KDEdycGNS",
-            "ZXNwb25zZRI6CgZSZXN1bHQYASABKA4yKi5OYW5vbWl0ZS5TZXJ2aWNlcy5O",
-            "ZXR3b3JrLkdycGMuUmVzdWx0Q29kZRIPCgdNZXNzYWdlGAIgASgJEiIKBERh",
-            "dGEYAyADKAsyFC5nb29nbGUucHJvdG9idWYuQW55QisKD2lvLmdycGMubWVz",
-            "c2FnZUIQTWVzc2FnZURhdGFQcm90b1ABogIDSExXYgZwcm90bzM="));
+            "ChJHcnBjUmVzcG9uc2UucHJvdG8SHE5hbm9taXRlLkNvcmUuTmV0d29yay5D",
+            "b21tb24aCWFueS5wcm90bxoQUmVzdWx0Q29kZS5wcm90byJ9CgxHcnBjUmVz",
+            "cG9uc2USOAoGUmVzdWx0GAEgASgOMiguTmFub21pdGUuQ29yZS5OZXR3b3Jr",
+            "LkNvbW1vbi5SZXN1bHRDb2RlEg8KB01lc3NhZ2UYAiABKAkSIgoERGF0YRgD",
+            "IAMoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlCKwoPaW8uZ3JwYy5tZXNzYWdl",
+            "QhBNZXNzYWdlRGF0YVByb3RvUAGiAgNITFdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Nanomite.Core.Network.Grpc.ResultCodeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Nanomite.Core.Network.Common.ResultCodeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Grpc.GrpcResponse), global::Nanomite.Core.Network.Grpc.GrpcResponse.Parser, new[]{ "Result", "Message", "Data" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Common.GrpcResponse), global::Nanomite.Core.Network.Common.GrpcResponse.Parser, new[]{ "Result", "Message", "Data" }, null, null, null)
           }));
     }
     #endregion
@@ -45,7 +45,7 @@ namespace Nanomite.Core.Network.Grpc {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Nanomite.Core.Network.Grpc.GrpcResponseReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Nanomite.Core.Network.Common.GrpcResponseReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -74,7 +74,7 @@ namespace Nanomite.Core.Network.Grpc {
 
     /// <summary>Field number for the "Result" field.</summary>
     public const int ResultFieldNumber = 1;
-    private global::Nanomite.Core.Network.Grpc.ResultCode result_ = 0;
+    private global::Nanomite.Core.Network.Common.ResultCode result_ = 0;
     /// <summary>
     //// &lt;summary>
     //// An enumeration indicating whether the command or fetch request was executed successfully.
@@ -82,7 +82,7 @@ namespace Nanomite.Core.Network.Grpc {
     //// &lt;/summary>  
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Nanomite.Core.Network.Grpc.ResultCode Result {
+    public global::Nanomite.Core.Network.Common.ResultCode Result {
       get { return result_; }
       set {
         result_ = value;
@@ -203,7 +203,7 @@ namespace Nanomite.Core.Network.Grpc {
             input.SkipLastField();
             break;
           case 8: {
-            result_ = (global::Nanomite.Core.Network.Grpc.ResultCode) input.ReadEnum();
+            result_ = (global::Nanomite.Core.Network.Common.ResultCode) input.ReadEnum();
             break;
           }
           case 18: {

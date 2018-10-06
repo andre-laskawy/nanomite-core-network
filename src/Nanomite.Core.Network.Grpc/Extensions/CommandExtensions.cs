@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿///-----------------------------------------------------------------
+///   File:         CommandExtensions.cs
+///   Author:   	Andre Laskawy           
+///   Date:         03.10.2018 15:05:21
+///-----------------------------------------------------------------
 
 namespace Nanomite.Core.Network.Grpc
 {
+    using Nanomite.Core.Network.Common;
+    using System;
+    using System.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="CommandExtensions" />
+    /// </summary>
     public static class CommandExtensions
     {
         /// <summary>
@@ -12,9 +20,7 @@ namespace Nanomite.Core.Network.Grpc
         /// </summary>
         /// <param name="response">The response.</param>
         /// <param name="throwException">The throwException<see cref="bool" /></param>
-        /// <returns>
-        /// the proto Exception
-        /// </returns>
+        /// <returns>The <see cref="Exception"/></returns>
         public static Exception ToException(this GrpcResponse response, bool throwException = false)
         {
             if (response.Result != ResultCode.Error)

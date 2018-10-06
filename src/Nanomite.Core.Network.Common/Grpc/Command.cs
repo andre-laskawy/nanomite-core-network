@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Nanomite.Core.Network.Grpc {
+namespace Nanomite.Core.Network.Common {
 
   /// <summary>Holder for reflection information generated from Command.proto</summary>
   public static partial class CommandReflection {
@@ -22,17 +22,17 @@ namespace Nanomite.Core.Network.Grpc {
     static CommandReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1Db21tYW5kLnByb3RvEh5OYW5vbWl0ZS5TZXJ2aWNlcy5OZXR3b3JrLkdy",
-            "cGMaCWFueS5wcm90bxoRQ29tbWFuZFR5cGUucHJvdG8imwEKB0NvbW1hbmQS",
-            "OQoEVHlwZRgBIAEoDjIrLk5hbm9taXRlLlNlcnZpY2VzLk5ldHdvcmsuR3Jw",
-            "Yy5Db21tYW5kVHlwZRINCgVUb3BpYxgCIAEoCRIQCghTZW5kZXJJZBgDIAEo",
-            "CRIQCghUYXJnZXRJZBgEIAEoCRIiCgREYXRhGAYgAygLMhQuZ29vZ2xlLnBy",
-            "b3RvYnVmLkFueUIrCg9pby5ncnBjLm1lc3NhZ2VCEE1lc3NhZ2VEYXRhUHJv",
-            "dG9QAaICA0hMV2IGcHJvdG8z"));
+            "Cg1Db21tYW5kLnByb3RvEhxOYW5vbWl0ZS5Db3JlLk5ldHdvcmsuQ29tbW9u",
+            "GglhbnkucHJvdG8aEUNvbW1hbmRUeXBlLnByb3RvIpkBCgdDb21tYW5kEjcK",
+            "BFR5cGUYASABKA4yKS5OYW5vbWl0ZS5Db3JlLk5ldHdvcmsuQ29tbW9uLkNv",
+            "bW1hbmRUeXBlEg0KBVRvcGljGAIgASgJEhAKCFNlbmRlcklkGAMgASgJEhAK",
+            "CFRhcmdldElkGAQgASgJEiIKBERhdGEYBiADKAsyFC5nb29nbGUucHJvdG9i",
+            "dWYuQW55QisKD2lvLmdycGMubWVzc2FnZUIQTWVzc2FnZURhdGFQcm90b1AB",
+            "ogIDSExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Nanomite.Core.Network.Grpc.CommandTypeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Nanomite.Core.Network.Common.CommandTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Grpc.Command), global::Nanomite.Core.Network.Grpc.Command.Parser, new[]{ "Type", "Topic", "SenderId", "TargetId", "Data" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Common.Command), global::Nanomite.Core.Network.Common.Command.Parser, new[]{ "Type", "Topic", "SenderId", "TargetId", "Data" }, null, null, null)
           }));
     }
     #endregion
@@ -46,7 +46,7 @@ namespace Nanomite.Core.Network.Grpc {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Nanomite.Core.Network.Grpc.CommandReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Nanomite.Core.Network.Common.CommandReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -77,14 +77,14 @@ namespace Nanomite.Core.Network.Grpc {
 
     /// <summary>Field number for the "Type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::Nanomite.Core.Network.Grpc.CommandType type_ = 0;
+    private global::Nanomite.Core.Network.Common.CommandType type_ = 0;
     /// <summary>
     //// &lt;summary>
     //// Defines the type of the command (e.g. Action, Message, File)
     //// &lt;/summary>  
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Nanomite.Core.Network.Grpc.CommandType Type {
+    public global::Nanomite.Core.Network.Common.CommandType Type {
       get { return type_; }
       set {
         type_ = value;
@@ -262,7 +262,7 @@ namespace Nanomite.Core.Network.Grpc {
             input.SkipLastField();
             break;
           case 8: {
-            type_ = (global::Nanomite.Core.Network.Grpc.CommandType) input.ReadEnum();
+            type_ = (global::Nanomite.Core.Network.Common.CommandType) input.ReadEnum();
             break;
           }
           case 18: {

@@ -9,7 +9,6 @@ namespace Nanomite.Core.Network
     using global::Grpc.Core;
     using Nanomite.Core.Network.Common;
     using Nanomite.Core.Network.Common.Models;
-    using Nanomite.Core.Network.Grpc;
     using NLog;
     using System;
     using System.Threading.Tasks;
@@ -144,7 +143,8 @@ namespace Nanomite.Core.Network
         {
             try
             {
-                if (string.IsNullOrEmpty(token))
+                if (string.IsNullOrEmpty(token) 
+                    && command.Topic != StaticCommandKeys.Connect)
                 {
                     throw new Exception("no token provided.");
                 }

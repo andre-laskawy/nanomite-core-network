@@ -7,30 +7,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using grpc = global::Grpc.Core;
 
-namespace Nanomite.Core.Network.Grpc {
+namespace Nanomite.Core.Network.Common {
   public static partial class GrpcServer
   {
-    static readonly string __ServiceName = "Nanomite.Core.Network.Grpc.GrpcServer";
+    static readonly string __ServiceName = "Nanomite.Core.Network.Common.GrpcServer";
 
-    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Grpc.Command> __Marshaller_Command = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Grpc.Command.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Grpc.GrpcResponse> __Marshaller_GrpcResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Grpc.GrpcResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Grpc.FetchRequest> __Marshaller_FetchRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Grpc.FetchRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Common.Command> __Marshaller_Command = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Common.Command.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Common.GrpcResponse> __Marshaller_GrpcResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Common.GrpcResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Nanomite.Core.Network.Common.FetchRequest> __Marshaller_FetchRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Nanomite.Core.Network.Common.FetchRequest.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.Command> __Method_OpenStream = new grpc::Method<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.Command>(
+    static readonly grpc::Method<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.Command> __Method_OpenStream = new grpc::Method<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.Command>(
         grpc::MethodType.DuplexStreaming,
         __ServiceName,
         "OpenStream",
         __Marshaller_Command,
         __Marshaller_Command);
 
-    static readonly grpc::Method<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.GrpcResponse> __Method_Execute = new grpc::Method<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.GrpcResponse>(
+    static readonly grpc::Method<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.GrpcResponse> __Method_Execute = new grpc::Method<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.GrpcResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Execute",
         __Marshaller_Command,
         __Marshaller_GrpcResponse);
 
-    static readonly grpc::Method<global::Nanomite.Core.Network.Grpc.FetchRequest, global::Nanomite.Core.Network.Grpc.GrpcResponse> __Method_Fetch = new grpc::Method<global::Nanomite.Core.Network.Grpc.FetchRequest, global::Nanomite.Core.Network.Grpc.GrpcResponse>(
+    static readonly grpc::Method<global::Nanomite.Core.Network.Common.FetchRequest, global::Nanomite.Core.Network.Common.GrpcResponse> __Method_Fetch = new grpc::Method<global::Nanomite.Core.Network.Common.FetchRequest, global::Nanomite.Core.Network.Common.GrpcResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Fetch",
@@ -40,7 +40,7 @@ namespace Nanomite.Core.Network.Grpc {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Nanomite.Core.Network.Grpc.GrpcServerInterfaceReflection.Descriptor.Services[0]; }
+      get { return global::Nanomite.Core.Network.Common.GrpcServerInterfaceReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of GrpcServer</summary>
@@ -56,7 +56,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="responseStream">Used for sending responses back to the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>A task indicating completion of the handler.</returns>
-      public virtual global::System.Threading.Tasks.Task OpenStream(grpc::IAsyncStreamReader<global::Nanomite.Core.Network.Grpc.Command> requestStream, grpc::IServerStreamWriter<global::Nanomite.Core.Network.Grpc.Command> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task OpenStream(grpc::IAsyncStreamReader<global::Nanomite.Core.Network.Common.Command> requestStream, grpc::IServerStreamWriter<global::Nanomite.Core.Network.Common.Command> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -70,7 +70,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::Nanomite.Core.Network.Grpc.GrpcResponse> Execute(global::Nanomite.Core.Network.Grpc.Command request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Nanomite.Core.Network.Common.GrpcResponse> Execute(global::Nanomite.Core.Network.Common.Command request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -84,7 +84,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::Nanomite.Core.Network.Grpc.GrpcResponse> Fetch(global::Nanomite.Core.Network.Grpc.FetchRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Nanomite.Core.Network.Common.GrpcResponse> Fetch(global::Nanomite.Core.Network.Common.FetchRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -124,7 +124,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncDuplexStreamingCall<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.Command> OpenStream(grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncDuplexStreamingCall<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.Command> OpenStream(grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return OpenStream(new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -136,7 +136,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// </summary>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncDuplexStreamingCall<global::Nanomite.Core.Network.Grpc.Command, global::Nanomite.Core.Network.Grpc.Command> OpenStream(grpc::CallOptions options)
+      public virtual grpc::AsyncDuplexStreamingCall<global::Nanomite.Core.Network.Common.Command, global::Nanomite.Core.Network.Common.Command> OpenStream(grpc::CallOptions options)
       {
         return CallInvoker.AsyncDuplexStreamingCall(__Method_OpenStream, null, options);
       }
@@ -151,7 +151,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Core.Network.Grpc.GrpcResponse Execute(global::Nanomite.Core.Network.Grpc.Command request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual global::Nanomite.Core.Network.Common.GrpcResponse Execute(global::Nanomite.Core.Network.Common.Command request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return Execute(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -164,7 +164,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Core.Network.Grpc.GrpcResponse Execute(global::Nanomite.Core.Network.Grpc.Command request, grpc::CallOptions options)
+      public virtual global::Nanomite.Core.Network.Common.GrpcResponse Execute(global::Nanomite.Core.Network.Common.Command request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Execute, null, options, request);
       }
@@ -179,7 +179,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Grpc.GrpcResponse> ExecuteAsync(global::Nanomite.Core.Network.Grpc.Command request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Common.GrpcResponse> ExecuteAsync(global::Nanomite.Core.Network.Common.Command request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return ExecuteAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -192,7 +192,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Grpc.GrpcResponse> ExecuteAsync(global::Nanomite.Core.Network.Grpc.Command request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Common.GrpcResponse> ExecuteAsync(global::Nanomite.Core.Network.Common.Command request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Execute, null, options, request);
       }
@@ -207,7 +207,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Core.Network.Grpc.GrpcResponse Fetch(global::Nanomite.Core.Network.Grpc.FetchRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual global::Nanomite.Core.Network.Common.GrpcResponse Fetch(global::Nanomite.Core.Network.Common.FetchRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return Fetch(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -220,7 +220,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Nanomite.Core.Network.Grpc.GrpcResponse Fetch(global::Nanomite.Core.Network.Grpc.FetchRequest request, grpc::CallOptions options)
+      public virtual global::Nanomite.Core.Network.Common.GrpcResponse Fetch(global::Nanomite.Core.Network.Common.FetchRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Fetch, null, options, request);
       }
@@ -235,7 +235,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Grpc.GrpcResponse> FetchAsync(global::Nanomite.Core.Network.Grpc.FetchRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Common.GrpcResponse> FetchAsync(global::Nanomite.Core.Network.Common.FetchRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return FetchAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -248,7 +248,7 @@ namespace Nanomite.Core.Network.Grpc {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Grpc.GrpcResponse> FetchAsync(global::Nanomite.Core.Network.Grpc.FetchRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Nanomite.Core.Network.Common.GrpcResponse> FetchAsync(global::Nanomite.Core.Network.Common.FetchRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Fetch, null, options, request);
       }

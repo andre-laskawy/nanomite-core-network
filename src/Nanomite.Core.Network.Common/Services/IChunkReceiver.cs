@@ -6,8 +6,8 @@
 
 namespace Nanomite.Core.Network.Common
 {
+    using global::Grpc.Core;
     using Google.Protobuf;
-    using Grpc.Core;
     using System;
 
     /// <summary>

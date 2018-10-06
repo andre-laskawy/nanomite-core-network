@@ -9,7 +9,9 @@ namespace Nanomite.Core.Network.Grpc
     using global::Grpc.Core;
     using Google.Protobuf.WellKnownTypes;
     using Nanomite;
+    using Nanomite.Common;
     using Nanomite.Core.Network.Common;
+    using Nanomite.Core.Network.Common.Chunking;
     using Nanomite.Core.Network.Common.Models;
     using Nanomite.Core.Network.Grpc.Models;
     using NLog;
@@ -19,7 +21,7 @@ namespace Nanomite.Core.Network.Grpc
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using static Nanomite.Core.Network.Grpc.GrpcServer;
+    using static Nanomite.Core.Network.Common.GrpcServer;
 
     /// <summary>
     /// Defines the <see cref="GrpcClient" />
@@ -117,13 +119,13 @@ namespace Nanomite.Core.Network.Grpc
         /// <param name="chunkReceiver">The chunkReceiver<see cref="IChunkReceiver{Command}"/></param>
         internal GrpcClient(Channel channel,
             IPEndPoint host,
-            IChunkSender<Command, FetchRequest, GrpcResponse> chunkSender,
-            IChunkReceiver<Command> chunkReceiver) : base(channel)
+            IChunkSender<Command, FetchRequest, GrpcResponse> chunkSender = null,
+            IChunkReceiver<Command> chunkReceiver = null) : base(channel)
         {
             this.channel = channel;
             this.remoteHost = host;
-            this.chunkSender = chunkSender;
-            this.chunkReceiver = chunkReceiver;
+            this.chunkSender = chunkSender ?? new ChunkSender();
+            this.chunkReceiver = chunkReceiver ?? new ChunkReceiver();
         }
 
         /// <inheritdoc />
@@ -165,49 +167,64 @@ namespace Nanomite.Core.Network.Grpc
                     PasswordHash = pass.Hash(secretToken)
                 };
 
-                Command loginCmd = new Command() { Topic = StaticCommandKeys.Connect, Type = CommandType.Action };
+                Command loginCmd = new Command()
+                {
+                    Topic = StaticCommandKeys.Connect,
+                    Type = CommandType.Action,
+                    SenderId = streamId
+                };
                 loginCmd.Data.Add(Any.Pack(loginCmd));
 
+                // connect
                 var response = await this.ExecuteAsync(loginCmd, GetHeader(streamId, null, this.header));
-                if(response.Result == ResultCode.Error)
+                if (response.Result == ResultCode.Error)
                 {
                     response.ToException(true);
                 }
 
                 this.user = response.Data.FirstOrDefault().CastToModel<NetworkUser>();
 
-                // establish new stream
-                this.grpcStream = base.OpenStream(GetHeader(streamId, user.AuthenticationToken, this.header));
-                await this.grpcStream.RequestStream.WriteAsync(new Command() { Topic = StaticCommandKeys.OpenStream });
-                this.Stream = new GrpcStream(grpcStream.RequestStream,
-                    grpcStream.ResponseStream,
-                    streamId,
-                    (message, timeout) => { base.Execute(message as Command, null, DateTime.UtcNow.AddSeconds(timeout)); });
+                // open stream
+                await this.OpenStream(streamId, user.AuthenticationToken, this.header, tryReconnect);
 
-                // register guard events
-                (this.Stream as GrpcStream).Guard.EstablishConnection = () =>
-                {
-                    this.StartReceiving();
-                    (this.Stream as GrpcStream).Connected = true;
-                    this.OnConnected?.Invoke();
-                };
-
-                (this.Stream as GrpcStream).Guard.OnConnectionLost = async (stream) =>
-                {
-                    if (tryReconnect)
-                    {
-                        await this.TryReconnect();
-                    }
-                };
-
-                // start the connection guard to observe the connection
-                this.Stream.StartGuard();
+                // return token
                 return user.AuthenticationToken;
             }
             catch (Exception ex)
             {
                 throw new Exception("Could not connect to cloud " + this.remoteHost.ToString() + " on port " + this.remoteHost.Port, ex);
             }
+        }
+
+        /// <inheritdoc />
+        public async Task OpenStream(string streamId, string token, Metadata header, bool tryReconnect)
+        {
+            // establish new stream
+            this.grpcStream = base.OpenStream(GetHeader(streamId, token, header));
+            await this.grpcStream.RequestStream.WriteAsync(new Command() { Topic = StaticCommandKeys.OpenStream });
+            this.Stream = new GrpcStream(grpcStream.RequestStream,
+                grpcStream.ResponseStream,
+                streamId,
+                (message, timeout) => { base.Execute(message as Command, null, DateTime.UtcNow.AddSeconds(timeout)); });
+
+            // register guard events
+            (this.Stream as GrpcStream).Guard.EstablishConnection = () =>
+            {
+                this.StartReceiving();
+                (this.Stream as GrpcStream).Connected = true;
+                this.OnConnected?.Invoke();
+            };
+
+            (this.Stream as GrpcStream).Guard.OnConnectionLost = async (stream) =>
+            {
+                if (tryReconnect)
+                {
+                    await this.TryReconnect();
+                }
+            };
+
+            // start the connection guard to observe the connection
+            this.Stream.StartGuard();
         }
 
         /// <inheritdoc />
@@ -229,10 +246,16 @@ namespace Nanomite.Core.Network.Grpc
         /// <inheritdoc />
         public async Task<GrpcResponse> Execute(Command command, string token, int timeout = 60)
         {
+            return await this.ExecuteRaw(command, token, this.Stream.Id, this.header, timeout);
+        }
+
+        /// <inheritdoc />
+        public async Task<GrpcResponse> ExecuteRaw(Command command, string token, string streamId, Metadata header, int timeout = 60)
+        {
             try
             {
                 this.Log(this.ToString(), "Start send command", LogLevel.Trace);
-                var result = await this.ExecuteAsync(command, GetHeader(this.Stream.Id, token, this.header), DateTime.UtcNow.AddSeconds(timeout));
+                var result = await this.ExecuteAsync(command, GetHeader(streamId, token, header), DateTime.UtcNow.AddSeconds(timeout));
                 this.Log(this.ToString(), "command result received", LogLevel.Trace);
                 return result;
             }

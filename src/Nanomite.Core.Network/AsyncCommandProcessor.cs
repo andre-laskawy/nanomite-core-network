@@ -7,7 +7,7 @@
 namespace Nanomite.Core.Network
 {
     using Google.Protobuf.WellKnownTypes;
-    using Nanomite.Core.Network.Grpc;
+    using Nanomite.Core.Network.Common;
     using System;
     using System.Collections.Concurrent;
     using System.Linq;
