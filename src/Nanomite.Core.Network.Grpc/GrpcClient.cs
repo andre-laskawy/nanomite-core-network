@@ -76,9 +76,19 @@ namespace Nanomite.Core.Network.Grpc
         private NetworkUser user;
 
         /// <summary>
+        /// The client identifier
+        /// </summary>
+        private string streamId;
+
+        /// <summary>
         /// The secret token
         /// </summary>
         private string secretToken;
+
+        /// <summary>
+        /// The user identifier
+        /// </summary>
+        private string userId;
 
         /// <summary>
         /// The password
@@ -150,7 +160,9 @@ namespace Nanomite.Core.Network.Grpc
             {
                 this.header = optionalHeader;
                 this.secretToken = secretToken;
+                this.userId = userId;
                 this.password = pass;
+                this.streamId = streamId;
 
                 // clean up old stream smoothly
                 if (this.Stream != null)
@@ -192,7 +204,14 @@ namespace Nanomite.Core.Network.Grpc
             }
             catch (Exception ex)
             {
-                throw new Exception("Could not connect to cloud " + this.remoteHost.ToString() + " on port " + this.remoteHost.Port, ex);
+                if (tryReconnect)
+                {
+                    return await this.TryReconnect();
+                }
+                else
+                {
+                    throw new Exception("Could not connect to cloud " + this.remoteHost.ToString() + " on port " + this.remoteHost.Port, ex);
+                }
             }
         }
 
@@ -201,16 +220,21 @@ namespace Nanomite.Core.Network.Grpc
         {
             // establish new stream
             this.grpcStream = base.OpenStream(GetHeader(streamId, token, header));
-            await this.grpcStream.RequestStream.WriteAsync(new Command() { Topic = StaticCommandKeys.OpenStream });
             this.Stream = new GrpcStream(grpcStream.RequestStream,
                 grpcStream.ResponseStream,
                 streamId,
                 (message, timeout) => { base.Execute(message as Command, null, DateTime.UtcNow.AddSeconds(timeout)); });
 
             // register guard events
-            (this.Stream as GrpcStream).Guard.EstablishConnection = () =>
-            {
+            (this.Stream as GrpcStream).Guard.EstablishConnection = async () =>
+            {            
+                // start receiving
                 this.StartReceiving();
+
+                // publish stream to server
+                var cmd = new Command() { Topic = StaticCommandKeys.OpenStream };
+                await this.grpcStream.RequestStream.WriteAsync(cmd);
+
                 (this.Stream as GrpcStream).Connected = true;
                 this.OnConnected?.Invoke();
             };
@@ -333,17 +357,10 @@ namespace Nanomite.Core.Network.Grpc
         /// Tries the reconnect.
         /// </summary>
         /// <returns>The <see cref="Task"/></returns>
-        private async Task TryReconnect()
+        private async Task<string> TryReconnect()
         {
-            try
-            {
-                this.Log(this.ToString(), "Try reconnect", LogLevel.Debug);
-                await this.Connect(this.Stream.Id, this.user.LoginName, this.password, this.secretToken, this.header, true);
-            }
-            catch
-            {
-                this.Log(this.ToString(), "Reconnect failed", LogLevel.Trace);
-            }
+            this.Log(this.ToString(), "Try reconnect", LogLevel.Debug);
+            return await this.Connect(this.streamId, this.userId, this.password, this.secretToken, this.header, true);
         }
 
         /// <summary>

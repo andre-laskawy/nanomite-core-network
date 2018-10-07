@@ -10,6 +10,7 @@ namespace Nanomite.Core.Network
     using Google.Protobuf;
     using Google.Protobuf.WellKnownTypes;
     using Nanomite.Core.Network.Common;
+    using Nanomite.Core.Network.Common.Chunking;
     using Nanomite.Core.Network.Common.Models;
     using Nanomite.Core.Network.Grpc;
     using NLog;
@@ -18,6 +19,7 @@ namespace Nanomite.Core.Network
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -25,6 +27,22 @@ namespace Nanomite.Core.Network
     /// </summary>
     public class NanomiteClient : IDisposable
     {
+        /// <summary>
+        /// Creates a GRPC client.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <returns>
+        /// the nanomite client
+        /// </returns>
+        public static NanomiteClient CreateGrpcClient(string address, string clientId)
+        {
+            string version = FileVersionInfo.GetVersionInfo(Assembly.GetAssembly(typeof(GrpcClient)).Location).ProductVersion;
+            var client = GrpcClient.Create(address, new ChunkSender(), new ChunkReceiver());
+            CommunicationClient comClient = new CommunicationClient(client, clientId);
+            return new NanomiteClient(comClient, version);
+        }
+
         /// <summary>
         /// The client version
         /// </summary>

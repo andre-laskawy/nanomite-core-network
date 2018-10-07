@@ -27,6 +27,11 @@ namespace Nanomite.Core.Network.Common.Models
         public const string Connect = "Connect";
 
         /// <summary>
+        /// The token validation
+        /// </summary>
+        public const string TokenValidation = "TokenValidation";
+
+        /// <summary>
         /// The subscribe
         /// </summary>
         public const string Subscribe = "Subscribe";
@@ -40,5 +45,10 @@ namespace Nanomite.Core.Network.Common.Models
         /// The file transfer
         /// </summary>
         public const string FileTransfer = "FileTransfer";
+
+        /// <summary>
+        /// The service meta data
+        /// </summary>
+        public const string ServiceMetaData = "ServiceMetaData";
     }
 }
