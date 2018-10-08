@@ -32,6 +32,11 @@ namespace Nanomite.Core.Network.Common.Models
         public const string TokenValidation = "TokenValidation";
 
         /// <summary>
+        /// The user validation
+        /// </summary>
+        public const string UserValidation = "UserValidation";
+
+        /// <summary>
         /// The subscribe
         /// </summary>
         public const string Subscribe = "Subscribe";

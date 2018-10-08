@@ -103,6 +103,25 @@ namespace Nanomite.Core.Network
         }
 
         /// <summary>
+        /// Authenticates the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="pass">The pass.</param>
+        /// <returns>the grpc response</returns>
+        public async Task<GrpcResponse> Authenticate(string user, string pass, string secret)
+        {
+            NetworkUser networkUser = new NetworkUser()
+            {
+                LoginName = user,
+                PasswordHash = pass.Hash(secret)
+            };
+
+            Command cmd = new Command() { Type = CommandType.Action, Topic = StaticCommandKeys.UserValidation };
+            cmd.Data.Add(Any.Pack(networkUser));
+            return await this.client.SendCommandAsync(cmd);
+        }
+
+        /// <summary>
         /// Runs the timer which will check if the tokens are still valid
         /// </summary>
         /// <param name="state">The state<see cref="object"/></param>

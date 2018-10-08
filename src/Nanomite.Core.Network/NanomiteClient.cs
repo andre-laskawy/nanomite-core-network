@@ -132,16 +132,6 @@ namespace Nanomite.Core.Network
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            communicationClient.Dispose();
-            Task.Delay(1000).Wait();
-        }
-
-        /// <summary>
         /// This function is used to request data from the cloud.
         /// The generic type is defining the IBaseModel type from that the proto type can be abstracted that need to be fetched.
         /// </summary>
@@ -342,6 +332,16 @@ namespace Nanomite.Core.Network
                 Debug.WriteLine(ex.ToText());
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            communicationClient.Dispose();
+            Task.Delay(1000).Wait();
         }
     }
 }
