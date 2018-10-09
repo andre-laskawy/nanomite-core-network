@@ -24,26 +24,26 @@ namespace Nanomite.Core.Network.Common.Chunking
         public Action<Command, string, string, Metadata> FileReceived { get; set; }
 
         /// <inheritdoc />
-        internal BlockingCollection<U_File> fileList = new BlockingCollection<U_File>();
+        internal BlockingCollection<File> fileList = new BlockingCollection<File>();
 
         /// <inheritdoc />
-        private ConcurrentDictionary<string, BlockingCollection<U_FileChunk>> fileChunkDictionary = new ConcurrentDictionary<string, BlockingCollection<U_FileChunk>>();
+        private ConcurrentDictionary<string, BlockingCollection<FileChunk>> fileChunkDictionary = new ConcurrentDictionary<string, BlockingCollection<FileChunk>>();
 
         /// <inheritdoc />
         public async void ChunkReceived(Command cmd, string streamId, string token, Metadata header)
         {
             try
             {
-                if (cmd.Data.FirstOrDefault().TypeUrl == Any.Pack(new U_FileChunk()).TypeUrl)
+                if (cmd.Data.FirstOrDefault().TypeUrl == Any.Pack(new FileChunk()).TypeUrl)
                 {
-                    var chunk = cmd.Data.FirstOrDefault().CastToModel<U_FileChunk>();
+                    var chunk = cmd.Data.FirstOrDefault().CastToModel<FileChunk>();
                     if (fileChunkDictionary.ContainsKey(chunk.FileId))
                     {
                         while (!fileChunkDictionary[chunk.FileId].TryAdd(chunk))
                         {
                             await Task.Delay(1);
                         }
-                        U_File file = fileList.FirstOrDefault(p => p.Id == chunk.FileId);
+                        File file = fileList.FirstOrDefault(p => p.Id == chunk.FileId);
                         Console.WriteLine(file.TotalChunks + "/" + fileChunkDictionary[file.Id].Count);
                         if (file.TotalChunks == fileChunkDictionary[file.Id].Count)
                         {
@@ -56,7 +56,7 @@ namespace Nanomite.Core.Network.Common.Chunking
                             //stick together file
                             byte[] stickedFile = new byte[file.Size];
                             int chunksize = -1;
-                            foreach (U_FileChunk c in fileChunkDictionary[file.Id].OrderBy(p => p.Index))
+                            foreach (FileChunk c in fileChunkDictionary[file.Id].OrderBy(p => p.Index))
                             {
                                 byte[] content = c.Content.ToArray();
                                 if (chunksize == -1)
@@ -71,7 +71,7 @@ namespace Nanomite.Core.Network.Common.Chunking
                             //clear memory
                             stickedFile = null;
 
-                            BlockingCollection<U_FileChunk> dump;
+                            BlockingCollection<FileChunk> dump;
                             fileChunkDictionary.TryRemove(file.Id, out dump);
                             dump.Dispose();
 
@@ -94,7 +94,7 @@ namespace Nanomite.Core.Network.Common.Chunking
                 else
                 {
                     // File information received
-                    U_File file = cmd.Data.FirstOrDefault().CastToModel<U_File>();
+                    File file = cmd.Data.FirstOrDefault().CastToModel<File>();
                     while (!fileList.TryAdd(file))
                     {
                         await Task.Delay(1);
@@ -102,7 +102,7 @@ namespace Nanomite.Core.Network.Common.Chunking
 
                     if (!fileChunkDictionary.ContainsKey(file.Id))
                     {
-                        while (!fileChunkDictionary.TryAdd(file.Id, new BlockingCollection<U_FileChunk>()))
+                        while (!fileChunkDictionary.TryAdd(file.Id, new BlockingCollection<FileChunk>()))
                         {
                             await Task.Delay(1);
                         }

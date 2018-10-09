@@ -36,7 +36,7 @@ namespace Nanomite.Core.Network.Common.Chunking
         {
             try
             {
-                U_File file = command.Data.FirstOrDefault().CastToModel<U_File>();
+                File file = command.Data.FirstOrDefault().CastToModel<File>();
                 file.TotalChunks = Convert.ToInt32(Math.Floor((double)file.Size / ChunkSize) + 1);
 
                 byte[] fileContent = file.Content.ToByteArray();
@@ -47,7 +47,7 @@ namespace Nanomite.Core.Network.Common.Chunking
                 stream.Connected = true;
 
                 // Generate and transfer file information
-                U_File fileInformation = new U_File()
+                File fileInformation = new File()
                 {
                     Id = file.Id,
                     CreatedDT = file.CreatedDT,
@@ -75,7 +75,7 @@ namespace Nanomite.Core.Network.Common.Chunking
                         Topic = StaticCommandKeys.FileTransfer
                     };
 
-                    U_FileChunk chunk = new U_FileChunk()
+                    FileChunk chunk = new FileChunk()
                     {
                         Content = ByteString.CopyFrom(fileContent.Skip(i * ChunkSize).Take(ChunkSize).ToArray()),
                         FileId = file.Id,

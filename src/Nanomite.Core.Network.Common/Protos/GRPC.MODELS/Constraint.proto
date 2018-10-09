@@ -7,6 +7,8 @@ option objc_class_prefix = "HLW";
  
 package Nanomite.Core.Network.Common;
 
-message S_SubscriptionMessage {
-	string Topic = 1;
+message Constraint {
+	string TypeFullName = 1;
+	string PropertyName = 2;
+	string ForeignKeyName = 3;
 }

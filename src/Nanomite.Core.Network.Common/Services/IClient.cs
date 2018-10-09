@@ -114,7 +114,7 @@ namespace Nanomite.Core.Network.Common
 
         /// <summary>
         /// This function is use to send a command via stream
-        /// If you want to send large files (via U_File proto) this method need to be used.
+        /// If you want to send large files (via File proto) this method need to be used.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="timeout">(Optional) The timeout is being used to define when a file transfer timed out.</param>

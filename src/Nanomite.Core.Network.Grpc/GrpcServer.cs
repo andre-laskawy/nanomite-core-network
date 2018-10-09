@@ -202,11 +202,11 @@ namespace Nanomite.Common.Common.Services.GrpcService
                 ChannelOption optionReceive = new ChannelOption(ChannelOptions.MaxReceiveMessageLength, GrpcStream.MaxPackageSize);
                 ChannelOption optionSend = new ChannelOption(ChannelOptions.MaxSendMessageLength, GrpcStream.MaxPackageSize);
 
-                if (File.Exists("ca.crt"))
+                if (System.IO.File.Exists("ca.crt"))
                 {
-                    var cacert = File.ReadAllText(@"ca.crt");
-                    var servercert = File.ReadAllText(@"server.crt");
-                    var serverkey = File.ReadAllText(@"server.key");
+                    var cacert = System.IO.File.ReadAllText(@"ca.crt");
+                    var servercert = System.IO.File.ReadAllText(@"server.crt");
+                    var serverkey = System.IO.File.ReadAllText(@"server.key");
                     var keypair = new KeyCertificatePair(servercert, serverkey);
                     var sslCredentials = new SslServerCredentials(new List<KeyCertificatePair>() { keypair }, cacert, false);
 

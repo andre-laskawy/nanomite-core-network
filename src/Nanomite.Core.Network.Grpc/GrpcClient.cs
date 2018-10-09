@@ -44,11 +44,11 @@ namespace Nanomite.Core.Network.Grpc
                 ChannelOption optionReceive = new ChannelOption(ChannelOptions.MaxReceiveMessageLength, GrpcStream.MaxPackageSize);
                 ChannelOption optionSend = new ChannelOption(ChannelOptions.MaxSendMessageLength, GrpcStream.MaxPackageSize);
 
-                if (File.Exists("ca.crt"))
+                if (System.IO.File.Exists("ca.crt"))
                 {
-                    var cacert = File.ReadAllText(@"ca.crt");
-                    var clientcert = File.ReadAllText(@"client.crt");
-                    var clientkey = File.ReadAllText(@"client.key");
+                    var cacert = System.IO.File.ReadAllText(@"ca.crt");
+                    var clientcert = System.IO.File.ReadAllText(@"client.crt");
+                    var clientkey = System.IO.File.ReadAllText(@"client.key");
                     var ssl = new SslCredentials(cacert, new KeyCertificatePair(clientcert, clientkey));
                     channel = new Channel(string.Format("{0}:{1}", endPoint.Address.ToString(), endPoint.Port), ssl);
                 }
@@ -204,7 +204,7 @@ namespace Nanomite.Core.Network.Grpc
             }
             catch (Exception ex)
             {
-                if (tryReconnect)
+                if (tryReconnect && !ex.Message.Contains("Invalid user or password"))
                 {
                     return await this.TryReconnect();
                 }

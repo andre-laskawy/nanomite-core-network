@@ -108,12 +108,12 @@ namespace Nanomite.Core.Network
         /// <param name="user">The user.</param>
         /// <param name="pass">The pass.</param>
         /// <returns>the grpc response</returns>
-        public async Task<GrpcResponse> Authenticate(string user, string pass, string secret)
+        public async Task<GrpcResponse> Authenticate(string user, string passwordHash)
         {
             NetworkUser networkUser = new NetworkUser()
             {
                 LoginName = user,
-                PasswordHash = pass.Hash(secret)
+                PasswordHash = passwordHash
             };
 
             Command cmd = new Command() { Type = CommandType.Action, Topic = StaticCommandKeys.UserValidation };

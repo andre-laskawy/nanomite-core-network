@@ -7,14 +7,6 @@ option objc_class_prefix = "HLW";
  
 package Nanomite.Core.Network.Common;
 
-message U_File {
-	string Version = 1;
-	string Id = 2;
-	string CreatedDT = 3;
-	string ModifiedDT = 4;
-	
-	string Name = 5;
-	int32 Size = 6;
-	int32 TotalChunks = 7;
-	bytes Content = 8;
+message SubscriptionMessage {
+	string Topic = 1;
 }
