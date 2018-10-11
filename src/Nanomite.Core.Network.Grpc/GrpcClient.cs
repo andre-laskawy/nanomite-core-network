@@ -201,7 +201,7 @@ namespace Nanomite.Core.Network.Grpc
                 this.user = response.Data.FirstOrDefault().CastToModel<NetworkUser>();
 
                 // open stream
-                await this.OpenStream(streamId, user.AuthenticationToken, this.header, tryReconnect);
+                await this.OpenStream(streamId, this.user.AuthenticationToken, this.header, tryReconnect);
 
                 // return token
                 return this.user.AuthenticationToken;
