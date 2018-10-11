@@ -113,7 +113,11 @@ namespace Nanomite.Core.Network
             NetworkUser networkUser = new NetworkUser()
             {
                 LoginName = user,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                AuthenticationToken = "",
+                CreatedDT = "",
+                ModifiedDT = "",
+                Name = "",
             };
 
             Command cmd = new Command() { Type = CommandType.Action, Topic = StaticCommandKeys.UserValidation };

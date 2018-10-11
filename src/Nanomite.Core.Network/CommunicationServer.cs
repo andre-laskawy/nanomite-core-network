@@ -39,17 +39,7 @@ namespace Nanomite.Core.Network
             };
             this.communicationService.OnCommand = async (command, streamId, token, header) => { return await this.Action(command, streamId, token, header); };
             this.communicationService.OnFetch = async (request, streamId, token, header) => { return await this.Fetch(request, streamId, token, header); };
-            this.communicationService.OnStreaming = async (cmd, stream, token, header) =>
-            {
-                if (cmd.Topic == StaticCommandKeys.OpenStream)
-                {
-                    return await this.OnStreamOpened(stream, token, header);
-                }
-                else
-                {
-                    return await this.OnStreaming?.Invoke(cmd, stream, token, header);
-                }
-            };
+            this.communicationService.OnStreaming = async (cmd, stream, token, header) => { return await this.Streaming(cmd, stream, token, header); };
             this.communicationService.OnClientDisconnected = (id) => { this.OnClientDisconnected?.Invoke(id); };
         }
 
@@ -174,11 +164,13 @@ namespace Nanomite.Core.Network
         /// <summary>
         /// Is called when a client wants to open a stream
         /// </summary>
+        /// <param name="cmd">The command.</param>
         /// <param name="stream">The stream.</param>
         /// <param name="token">The token.</param>
         /// <param name="header">The header.</param>
-        /// <returns>The <see cref="Task{GrpcResponse}"/></returns>
-        private async Task<GrpcResponse> StreamOpened(IStream<Command> stream, string token, Metadata header)
+        /// <returns>
+        /// The <see cref="Task{GrpcResponse}" /></returns>
+        private async Task<GrpcResponse> Streaming(Command cmd, IStream<Command> stream, string token, Metadata header)
         {
             try
             {
@@ -187,7 +179,14 @@ namespace Nanomite.Core.Network
                     throw new Exception("no token provided.");
                 }
 
-                return await OnStreamOpened?.Invoke(stream, token, header);
+                if (cmd.Topic == StaticCommandKeys.OpenStream)
+                {
+                    return await OnStreamOpened?.Invoke(stream, token, header);
+                }
+                else
+                {
+                    return await this.OnStreaming?.Invoke(cmd, stream, token, header);
+                }
             }
             catch (Exception ex)
             {

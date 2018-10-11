@@ -176,7 +176,11 @@ namespace Nanomite.Core.Network.Grpc
                 NetworkUser user = new NetworkUser()
                 {
                     LoginName = userId,
-                    PasswordHash = pass.Hash(secretToken)
+                    PasswordHash = pass.Hash(secretToken),
+                    AuthenticationToken = "",
+                    CreatedDT = "",
+                    ModifiedDT = "",
+                    Name = "",
                 };
 
                 Command loginCmd = new Command()

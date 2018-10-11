@@ -23,14 +23,14 @@ namespace Nanomite.Core.Network.Common {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBDb25zdHJhaW50LnByb3RvEhxOYW5vbWl0ZS5Db3JlLk5ldHdvcmsuQ29t",
-            "bW9uInAKCkNvbnN0cmFpbnQSFAoMVHlwZUZ1bGxOYW1lGAEgASgJEhQKDFBy",
-            "b3BlcnR5TmFtZRgCIAEoCRIWCg5Gb3JlaWduS2V5TmFtZRgDIAEoCRIeChZG",
-            "b3JlaWduS2V5VHlwZUZ1bGxOYW1lGAQgASgJQisKD2lvLmdycGMubWVzc2Fn",
-            "ZUIQTWVzc2FnZURhdGFQcm90b1ABogIDSExXYgZwcm90bzM="));
+            "bW9uIlAKCkNvbnN0cmFpbnQSFAoMVHlwZUZ1bGxOYW1lGAEgASgJEhQKDFBy",
+            "b3BlcnR5TmFtZRgCIAEoCRIWCg5Gb3JlaWduS2V5TmFtZRgDIAEoCUIrCg9p",
+            "by5ncnBjLm1lc3NhZ2VCEE1lc3NhZ2VEYXRhUHJvdG9QAaICA0hMV2IGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Common.Constraint), global::Nanomite.Core.Network.Common.Constraint.Parser, new[]{ "TypeFullName", "PropertyName", "ForeignKeyName", "ForeignKeyTypeFullName" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Nanomite.Core.Network.Common.Constraint), global::Nanomite.Core.Network.Common.Constraint.Parser, new[]{ "TypeFullName", "PropertyName", "ForeignKeyName" }, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +64,6 @@ namespace Nanomite.Core.Network.Common {
       typeFullName_ = other.typeFullName_;
       propertyName_ = other.propertyName_;
       foreignKeyName_ = other.foreignKeyName_;
-      foreignKeyTypeFullName_ = other.foreignKeyTypeFullName_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -105,17 +104,6 @@ namespace Nanomite.Core.Network.Common {
       }
     }
 
-    /// <summary>Field number for the "ForeignKeyTypeFullName" field.</summary>
-    public const int ForeignKeyTypeFullNameFieldNumber = 4;
-    private string foreignKeyTypeFullName_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ForeignKeyTypeFullName {
-      get { return foreignKeyTypeFullName_; }
-      set {
-        foreignKeyTypeFullName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Constraint);
@@ -132,7 +120,6 @@ namespace Nanomite.Core.Network.Common {
       if (TypeFullName != other.TypeFullName) return false;
       if (PropertyName != other.PropertyName) return false;
       if (ForeignKeyName != other.ForeignKeyName) return false;
-      if (ForeignKeyTypeFullName != other.ForeignKeyTypeFullName) return false;
       return true;
     }
 
@@ -142,7 +129,6 @@ namespace Nanomite.Core.Network.Common {
       if (TypeFullName.Length != 0) hash ^= TypeFullName.GetHashCode();
       if (PropertyName.Length != 0) hash ^= PropertyName.GetHashCode();
       if (ForeignKeyName.Length != 0) hash ^= ForeignKeyName.GetHashCode();
-      if (ForeignKeyTypeFullName.Length != 0) hash ^= ForeignKeyTypeFullName.GetHashCode();
       return hash;
     }
 
@@ -165,10 +151,6 @@ namespace Nanomite.Core.Network.Common {
         output.WriteRawTag(26);
         output.WriteString(ForeignKeyName);
       }
-      if (ForeignKeyTypeFullName.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(ForeignKeyTypeFullName);
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -182,9 +164,6 @@ namespace Nanomite.Core.Network.Common {
       }
       if (ForeignKeyName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ForeignKeyName);
-      }
-      if (ForeignKeyTypeFullName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ForeignKeyTypeFullName);
       }
       return size;
     }
@@ -202,9 +181,6 @@ namespace Nanomite.Core.Network.Common {
       }
       if (other.ForeignKeyName.Length != 0) {
         ForeignKeyName = other.ForeignKeyName;
-      }
-      if (other.ForeignKeyTypeFullName.Length != 0) {
-        ForeignKeyTypeFullName = other.ForeignKeyTypeFullName;
       }
     }
 
@@ -226,10 +202,6 @@ namespace Nanomite.Core.Network.Common {
           }
           case 26: {
             ForeignKeyName = input.ReadString();
-            break;
-          }
-          case 34: {
-            ForeignKeyTypeFullName = input.ReadString();
             break;
           }
         }
