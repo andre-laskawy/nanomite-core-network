@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanomite.Core.Network.Common", "Nanomite.Core.Network.Common\Nanomite.Core.Network.Common.csproj", "{D7165893-C455-4C28-825C-2640714B395D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanomite.Core.Network", "Nanomite.Core.Network\Nanomite.Core.Network.csproj", "{E93779C0-EDB9-4D57-81DA-5533D650FFE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanomite.Core.Network", "Nanomite.Core.Network\Nanomite.Core.Network.csproj", "{E93779C0-EDB9-4D57-81DA-5533D650FFE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanomite.Core.Network.Grpc", "Nanomite.Core.Network.Grpc\Nanomite.Core.Network.Grpc.csproj", "{0B03D213-A645-43F2-9207-F148EFED9365}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grpc.Core", "..\Ext\src\csharp\Grpc.Core\Grpc.Core.csproj", "{16184851-D931-49E8-ABE0-AAA43B0941C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,12 @@ Global
 		{0B03D213-A645-43F2-9207-F148EFED9365}.Local|Any CPU.Build.0 = Debug|Any CPU
 		{0B03D213-A645-43F2-9207-F148EFED9365}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B03D213-A645-43F2-9207-F148EFED9365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Local|Any CPU.ActiveCfg = Debug|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Local|Any CPU.Build.0 = Debug|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16184851-D931-49E8-ABE0-AAA43B0941C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

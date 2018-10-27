@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="Version.csproj.include" />
 
@@ -13,12 +13,18 @@
   <Import Project="SourceLink.csproj.include" />
 
   <ItemGroup>
-    <PackageReference Include="Grpc.Core" Version="1.11.1" />
     <PackageReference Include="Nanomite.Common" Version="1.0.0" />
     <PackageReference Include="semver.core" Version="2.0.0" />
+    <PackageReference Include="System.Interactive.Async" Version="3.1.1" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+    <PackageReference Include="System.Threading.Thread" Version="4.0.0" />
+    <PackageReference Include="System.Threading.ThreadPool" Version="4.0.10" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Ext\src\csharp\Grpc.Core\Grpc.Core.csproj" >
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
     <ProjectReference Include="..\Nanomite.Core.Network.Common\Nanomite.Core.Network.Common.csproj">
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>

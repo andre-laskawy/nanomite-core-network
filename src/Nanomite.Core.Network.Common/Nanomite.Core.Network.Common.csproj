@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="Version.csproj.include" />
 
@@ -14,8 +14,13 @@
   
   <ItemGroup>
     <PackageReference Include="Nanomite.Common" Version="1.0.0" />
-    <PackageReference Include="Grpc.Core" Version="1.11.1" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ext\src\csharp\Grpc.Core\Grpc.Core.csproj" >
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
 
 
