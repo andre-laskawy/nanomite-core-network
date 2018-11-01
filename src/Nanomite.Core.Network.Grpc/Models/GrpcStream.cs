@@ -33,22 +33,14 @@ namespace Nanomite.Core.Network.Grpc.Models
         /// <param name="streamReader">The stream reader.</param>
         /// <param name="id">The identifier.</param>
         /// <param name="heartbead">The heartbead method.</param>
-        public GrpcStream(dynamic streamWriter, IAsyncStreamReader<Command> streamReader, string id, Action<Command, int> heartbead = null)
+        public GrpcStream(dynamic streamWriter, IAsyncStreamReader<Command> streamReader, string id)
         {
             this.Id = id;
             this.StreamWriter = streamWriter;
             this.StreamReader = streamReader;
             this.Locked = false;
-            this.Guard = new GrpcGuard(heartbead);
             this.streamQueueWorker = new StreamQueueWorker<Command>(this);
         }
-
-        /// <summary>
-        /// Gets or sets the guard.
-        /// </summary>
-        /// <value>The guard.</value>
-        /// <inheritdoc/>
-        public GrpcGuard Guard { get; set; }
 
         /// <summary>
         /// Gets or sets the stream reader.
@@ -121,14 +113,6 @@ namespace Nanomite.Core.Network.Grpc.Models
                 }
             }
             catch { }
-
-            this.Guard = null;
-        }
-
-        /// <inheritdoc />
-        public void StartGuard()
-        {
-            this.Guard.StartHeartBeat(this);
         }
     }
 }

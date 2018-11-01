@@ -23,11 +23,6 @@ namespace Nanomite.Core.Network.Common
         where R : IMessage
     {
         /// <summary>
-        /// Gets or sets the action that is called as soon a client is connected.
-        /// </summary>
-        Action OnConnected { get; set; }
-
-        /// <summary>
         /// Gets or sets the action that is called as soon a client is disconnect.
         /// </summary>
         Action OnDisconnected { get; set; }
@@ -66,7 +61,7 @@ namespace Nanomite.Core.Network.Common
         /// <returns>
         /// A token/&gt;
         /// </returns>
-        Task<string> Connect(string streamId, string userId, string pass, string secretToken, Metadata optionalHeader, bool tryReconnect = false);
+        Task<string> Connect(string streamId, string userId, string pass, string secretToken, Metadata optionalHeader);
 
         /// <summary>
         /// Opens a permanent stream.
@@ -76,7 +71,7 @@ namespace Nanomite.Core.Network.Common
         /// <param name="header">The header.</param>
         /// <param name="tryReconnect">if set to <c>true</c> [try reconnect].</param>
         /// <returns>a task</returns>
-        Task OpenStream(string streamId, string token, Metadata header, bool tryReconnect);
+        Task OpenStream(string streamId, string token, Metadata header);
 
         /// <summary>
         /// This function is used to request data from the cloud. To give the neccesary information about the data we want to receive

@@ -48,12 +48,6 @@ namespace Nanomite.Core.Network.Common
         void AddToQueue(C package);
 
         /// <summary>
-        /// Starts the guard, which checking if the client is still connected and 
-        /// which triggering the reconnect in a disconnect case.
-        /// </summary>
-        void StartGuard();
-
-        /// <summary>
         /// Closes this instance.
         /// </summary>
         /// <returns>The <see cref="Task"/></returns>

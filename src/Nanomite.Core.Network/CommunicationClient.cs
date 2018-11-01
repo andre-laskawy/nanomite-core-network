@@ -46,9 +46,34 @@ namespace Nanomite.Core.Network
         public static int StreamTimeout { get; set; }
 
         /// <summary>
+        /// The automatic reconnect flag
+        /// </summary>
+        private bool autoReconnect;
+
+        /// <summary>
+        /// The header
+        /// </summary>
+        private Metadata header;
+
+        /// <summary>
+        /// The secret token
+        /// </summary>
+        private string secretToken;
+
+        /// <summary>
+        /// The user identifier
+        /// </summary>
+        private string userId;
+
+        /// <summary>
+        /// The password
+        /// </summary>
+        private string password;
+
+        /// <summary>
         /// Gets or sets the password.
         /// </summary>
-        private string token = null;
+        private string token;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationClient"/> class.
@@ -63,15 +88,18 @@ namespace Nanomite.Core.Network
 
             this.Client.OnNotify += (sender, message, level) => { Log(sender.ToString(), this.SrcDeviceId, message, level); };
             this.Client.OnStreaming = (message) => this.DataReceived(message);
-            this.Client.OnDisconnected = () =>
+            this.Client.OnDisconnected = async () =>
             {
                 this.IsOnline = false;
                 this.OnDisconnected?.Invoke();
-            };
-            this.Client.OnConnected = () =>
-            {
-                this.IsOnline = true;
-                this.OnConnected?.Invoke();
+                if (this.autoReconnect)
+                {
+                    while (!await this.TryConnect())
+                    {
+                        this.Log(this.ToString(), this.SrcDeviceId, "Reconnect failed, retry in 5 seconds...", LogLevel.Debug);
+                        await Task.Delay(5000);
+                    }
+                }
             };
         }
 
@@ -152,8 +180,12 @@ namespace Nanomite.Core.Network
         /// <returns>the user specific JWT token</returns>
         public async Task<string> Connect(string secretToken, string userId, string password, Metadata header, bool tryReconnect = false)
         {
-            this.token = await this.Client.Connect(this.SrcDeviceId, userId, password, secretToken, header, tryReconnect);
-            await new Func<bool>(() => this.Client.Stream.Connected).AwaitResult(10);
+            this.secretToken = secretToken;
+            this.userId = userId;
+            this.password = password;
+            this.header = header;
+            this.autoReconnect = tryReconnect;
+            await this.TryConnect();
             return this.token;
         }
 
@@ -294,6 +326,33 @@ namespace Nanomite.Core.Network
             {
                 await Task.Delay(1);
                 this.Log(this.SrcDeviceId, "Command process exception", ex);
+            }
+        }
+
+        /// <summary>
+        /// Tries the reconnect.
+        /// </summary>
+        /// <returns>The result of the reconnection try</returns>
+        private async Task<bool> TryConnect()
+        {
+            try
+            {
+                this.Log(this.ToString(), this.SrcDeviceId, "Trying to connect...", LogLevel.Debug);
+                this.token = await this.Client.Connect(this.SrcDeviceId, this.userId, this.password, this.secretToken, this.header);
+                this.IsOnline = true;
+                this.OnConnected?.Invoke();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (!ex.Message.ToLower().Contains("invalid user or password"))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
